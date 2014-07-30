@@ -65,6 +65,7 @@ class Application extends SilexApplication
             $twig->addFilter(new \Twig_SimpleFilter('htmlentities', 'htmlentities'));
             $twig->addFilter(new \Twig_SimpleFilter('md5', 'md5'));
             $twig->addFilter(new \Twig_SimpleFilter('format_date', array($app, 'formatDate')));
+            $twig->addFilter(new \Twig_SimpleFilter('format_date_relative', array($app, 'formatDateRelative')));
             $twig->addFilter(new \Twig_SimpleFilter('format_size', array($app, 'formatSize')));
 
             return $twig;
@@ -96,6 +97,31 @@ class Application extends SilexApplication
     public function formatDate($date)
     {
         return $date->format($this['date.format']);
+    }
+
+    public function formatDateRelative($date)
+    {
+        $date = $date->getTimestamp();
+        if (!ctype_digit($date)) $date = strtotime($date);
+        $diff = time() - $date;
+        $day_diff = floor($diff / 86400);
+
+        if ($day_diff == 0) {
+            if ($diff < 10) return 'Just now';
+            if ($diff < 60) return $diff . ' seconds ago';
+
+            if ($diff < 120) return '1 minute ago';
+            if ($diff < 3600) return floor($diff / 60) . ' minutes ago';
+
+            if ($diff < 7200) return '1 hour ago';
+            if ($diff < 86400) return floor($diff / 3600) . ' hours ago';
+        }
+
+        if ($day_diff == 1) return 'Yesterday';
+        if ($day_diff < 31) return $day_diff . ' days ago';
+
+        if ($day_diff < 60) return '1 month ago';
+        return ceil($day_diff / 31) . ' months ago';
     }
 
     public function formatSize($size)
