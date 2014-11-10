@@ -53,7 +53,7 @@ class Client extends BaseClient
         return $allRepositories;
     }
 
-    private function recurseDirectory($path, $topLevel = true)
+    private function recurseDirectory($path, $relpath = '')
     {
         $dir = new \DirectoryIterator($path);
 
@@ -93,12 +93,8 @@ class Client extends BaseClient
                         $description = null;
                     }
 
-                    if (!$topLevel) {
-                        $repoName = $file->getPathInfo()->getFilename() . '/' . $file->getFilename();
-                    } else {
-                        $repoName = $file->getFilename();
-                    }
-
+                    $repoName = $relpath . $file->getFilename();
+				
                     $repositories[$repoName] = array(
                         'name' => $repoName,
                         'path' => $file->getPathname(),
@@ -107,7 +103,7 @@ class Client extends BaseClient
 
                     continue;
                 } else {
-                    $repositories = array_merge($repositories, $this->recurseDirectory($file->getPathname(), false));
+                    $repositories = array_merge($repositories, $this->recurseDirectory($file->getPathname(), $relpath . $file->getFilename() . '/'));
                 }
             }
         }
