@@ -45,7 +45,6 @@ class TreeController implements ControllerProviderInterface
             ));
         })->assert('repo', $app['util.routing']->getRepositoryRegex())
           ->assert('commitishPath', $app['util.routing']->getCommitishPathRegex())
-          ->convert('commitishPath', 'escaper.argument:escape')
           ->bind('tree');
 
         $route->post('{repo}/tree/{branch}/search', function (Request $request, $repo, $branch = '', $tree = '') use ($app) {
@@ -70,7 +69,6 @@ class TreeController implements ControllerProviderInterface
             ));
         })->assert('repo', $app['util.routing']->getRepositoryRegex())
           ->assert('branch', $app['util.routing']->getBranchRegex())
-          ->convert('branch', 'escaper.argument:escape')
           ->bind('search');
 
         $route->get('{repo}/{format}ball/{branch}', function($repo, $format, $branch) use ($app) {
@@ -97,7 +95,6 @@ class TreeController implements ControllerProviderInterface
         })->assert('format', '(zip|tar)')
           ->assert('repo', $app['util.routing']->getRepositoryRegex())
           ->assert('branch', $app['util.routing']->getBranchRegex())
-          ->convert('branch', 'escaper.argument:escape')
           ->bind('archive');
 
 
@@ -105,7 +102,6 @@ class TreeController implements ControllerProviderInterface
             return $treeController($repo, $branch);
         })->assert('repo', $app['util.routing']->getRepositoryRegex())
           ->assert('branch', $app['util.routing']->getBranchRegex())
-          ->convert('branch', 'escaper.argument:escape')
           ->bind('branch');
 
         $route->get('{repo}/', function($repo) use ($app, $treeController) {
