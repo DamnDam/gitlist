@@ -8,6 +8,7 @@ $(function () {
         var viewer = CodeMirror(function(elt) {
             pre.parentNode.replaceChild(elt, pre);
         }, {
+            theme: "xq-light",
             value: value,
             lineNumbers: true,
             matchBrackets: true,
