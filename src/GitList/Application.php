@@ -62,7 +62,7 @@ class Application extends SilexApplication
         $this->register(new RoutingUtilServiceProvider());
 
         $this['twig'] = $this->share($this->extend('twig', function ($twig, $app) {
-            $twig->addFilter(new \Twig_SimpleFilter('htmlentities', 'htmlentities'));
+            $twig->addFilter(new \Twig_SimpleFilter('htmlentities', array($app, 'escapeHTML')));
             $twig->addFilter(new \Twig_SimpleFilter('md5', 'md5'));
             $twig->addFilter(new \Twig_SimpleFilter('format_date', array($app, 'formatDate')));
             $twig->addFilter(new \Twig_SimpleFilter('format_size', array($app, 'formatSize')));
@@ -93,6 +93,11 @@ class Application extends SilexApplication
         });
     }
 
+    public function escapeHTML($text)
+    {
+        return htmlentities($text, ENT_SUBSTITUTE | ENT_QUOTES, "ISO-8859-1");
+    }
+    
     public function formatDate($date)
     {
         return $date->format($this['date.format']);
