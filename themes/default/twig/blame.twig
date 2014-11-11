@@ -14,7 +14,14 @@
         <table class="blame-view">
         {% for blame in blames %}
             <tr>
-                <td class="commit"><a href="{{ path('commit', {repo: repo, commit: blame.commit}) }}">{{ blame.commitShort }}</a></td>
+                <td class="commit">
+                    <table><td>
+                        <img src="https://gravatar.com/avatar/{{ blame.commit.author.email | lower | md5 }}?s=40" />
+                    </td><td><a href="{{ path('commit', {repo: repo, commit: blame.commit.hash}) }}">
+                        {{ blame.commit.message }} ({{ blame.commitShort }})
+                    </a></td></table>
+                    <span><a href="mailto:{{ blame.commit.author.email }}">{{ blame.commit.author.name }}</a> authored on {{ blame.commit.date | format_date }}</span>
+                </td>
                 <td><pre>{{ blame.line }}</pre></td>
             </tr>
         {% endfor %}

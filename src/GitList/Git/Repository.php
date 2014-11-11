@@ -100,7 +100,7 @@ class Repository extends BaseRepository
                 ++$i;
                 $blame[$i] = array(
                     'line' => '',
-                    'commit' => $currentCommit,
+                    'commit' => $this->getCommit($currentCommit),
                     'commitShort' => substr($currentCommit, 0, 8)
                 );
             }
