@@ -5,6 +5,8 @@
  * http://gitlist.org
  */
 
+setlocale(LC_CTYPE, "UTF8", "en_US.UTF-8");
+ 
 if (!ini_get('date.timezone')) {
     date_default_timezone_set('UTC');
 }
