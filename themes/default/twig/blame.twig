@@ -20,7 +20,7 @@
                     </td><td><a href="{{ path('commit', {repo: repo, commit: blame.commit.hash}) }}">
                         {{ blame.commit.message }} ({{ blame.commitShort }})
                     </a></td></table>
-                    <span><a href="mailto:{{ blame.commit.author.email }}">{{ blame.commit.author.name }}</a> authored on {{ blame.commit.date | format_date }}</span>
+                    <span><a href="mailto:{{ blame.commit.author.email }}">{{ blame.commit.author.name }}</a> authored <abbr title="{{ blame.commit.date | format_date }}">{{ blame.commit.date | format_date_relative }}</abbr></span>
                 </td>
                 <td><pre>{{ blame.line }}</pre></td>
             </tr>
